@@ -26,7 +26,7 @@ public class BatchingModel {
         return true;
     }
 
-    public boolean addRiver(Entities.Rider r) {
+    public boolean addRider(Entities.Rider r) {
         this.riderList.add(r);
         return true;
     }
