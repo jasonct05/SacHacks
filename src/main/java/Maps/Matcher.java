@@ -8,26 +8,29 @@ import java.util.*;
 public class Matcher {
     public static final int MAX_DISTANCE = 10; // in miles
 
-    public static Map<Driver, Set<Rider>> findRidersInRegion(List<Driver> lDriver, List<Rider> lRider) {
+    public static Map<Rider, Set<Driver>> findRidersInRegion(Set<Driver> lDriver, Set<Rider> lRider) {
         // initialize
-        Map<Driver, Set<Rider>> result = new HashMap<>();
-        for(Driver d : lDriver) {
+        Map<Rider, Set<Driver>> result = new HashMap<>();
+        for(Rider d : lRider) {
             result.put(d, new HashSet<>());
         }
 
+        // find distance between all riders and drivers in the event.
         // shitty O(n^2) alg but fuck it
         for(Rider r : lRider) {
-            for ()
+            for (Driver d : lDriver) {
+
+            }
         }
-       return null;
+       return result;
     }
 
-    public static Map<Driver, List<Rider>> findClusters(Map<Driver, Set<Rider>> driverRiderMappingInRegion) {
+    public static Map<Driver, Set<Rider>> findClusters(Map<Rider, Set<Driver>> driverRiderMappingInRegion, Set<Driver> lDriver) {
         //TODO: @Alex call maps api to get clusters;
         return null;
     }
 
-    public static List<Rider> findOrder(Driver driver, List<Rider> lRider, Event destination) {
+    public static List<Rider> findOrder(Map<Driver, Set<Rider>> driverToRiderUnorderedMapping) {
         //TODO: @Alex call maps api to find ordering
         return null;
     }

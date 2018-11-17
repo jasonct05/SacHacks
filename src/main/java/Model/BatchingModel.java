@@ -3,20 +3,17 @@ package Model;
 import Maps.Matcher;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Data
 public class BatchingModel {
-    private List<Driver> driverList;
-    private List<Rider> riderList;
+    private Set<Driver> driverList;
+    private Set<Rider> riderList;
     private Event event;
 
     public BatchingModel(Event event) {
-        this.driverList = new ArrayList<Driver>();
-        this.riderList = new ArrayList<Rider>();
+        this.driverList = new HashSet<Driver>();
+        this.riderList = new HashSet<Rider>();
 
         this.event = event;
     }
@@ -36,16 +33,18 @@ public class BatchingModel {
      *          in ORDER of pickup
      */
     public Map<Driver, List<Rider>> matchRiderAndDriver() {
-        Map<Driver, List<Rider>> matchedWithoutOrder = Matcher.findClusters(this.driverList, this.riderList);
+        // Step 1: Find all riders in the same region as drivers
+        Map<Rider, Set<Driver>> driverToPotentialRiderMapping = Matcher.findRidersInRegion(this.driverList, new HashSet<Rider>(this.riderList));
 
-        // findOrder
-        Map<Driver, List<Rider>> matchedWithOrder = new HashMap<Driver, List<Rider>>();
-        for (Driver d : matchedWithOrder.keySet()) {
-            matchedWithOrder.put(d, Matcher.findOrder(d, matchedWithOrder.get(d), this.event));
+        // Step 2: Match riders to drivers
+        Map<Driver, Set<Rider>> driverToRiderUnorderedMapping = Matcher.findClusters(driverToPotentialRiderMapping, this.driverList);
+
+        // Step 3: Find final matches
+        Map<Driver, List<Rider>> driverToRiderOrderedMapping = new HashMap<>();
+        for(Driver d : this.driverList) {
+            driverToRiderOrderedMapping.put(d, Matcher.findOrder(driverToRiderUnorderedMapping));
         }
-
-        // return map
-        return matchedWithOrder;
+        return driverToRiderOrderedMapping;
     }
 }
 
