@@ -1,10 +1,7 @@
 package Networks;
 
-import lombok.extern.java.Log;
-
 import java.net.ServerSocket;
 
-@Log
 public class TCPServer {
     private static final int PORT_NUMBER = 4022;
 
@@ -15,7 +12,7 @@ public class TCPServer {
             try {
                 socket = new ServerSocket(TCPServer.PORT_NUMBER);
             } catch (Exception e) {
-                log.fine("Unable to initialize socket");
+                // Error
             }
         }
 
