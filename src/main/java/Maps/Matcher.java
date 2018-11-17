@@ -17,7 +17,7 @@ public class Matcher {
 
         // shitty O(n^2) alg but fuck it
         for(Rider r : lRider) {
-            for ()
+
         }
        return null;
     }
