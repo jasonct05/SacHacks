@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class Rider extends User {
 
-    public Rider(String un, String uid, String sd, String ld, LocalDateTime pickupTimeFrame) {
-        super(un, uid, sd, ld, pickupTimeFrame);
+    public Rider(String userName, String userId, String shortDescription, String longDescription, LocalDateTime pickupTimeFrame) {
+        super(userName, userId, shortDescription, longDescription, pickupTimeFrame);
     }
 }

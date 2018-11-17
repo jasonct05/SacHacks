@@ -6,8 +6,8 @@ public class Event {
     public String eventName;
     public LocalDateTime eventDate;
 
-    public Event(String en, LocalDateTime eventDate) {
-        this.eventName = en;
+    public Event(String eventName, LocalDateTime eventDate) {
+        this.eventName = eventName;
         this.eventDate = eventDate;
     }
 }

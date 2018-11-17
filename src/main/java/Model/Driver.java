@@ -7,9 +7,9 @@ public class Driver extends User {
     public int availableSeats;
     public String meetupLocation;
 
-    public Driver(String un, String uid, String sd, String ld, LocalDateTime pickupTimeFrame,
+    public Driver(String userName, String userId, String shortDescription, String longDescription, LocalDateTime pickupTimeFrame,
                   int maxSeats, int availableSeats, String meetupLocation) {
-        super(un, uid, sd, ld, pickupTimeFrame);
+        super(userName, userId, shortDescription, longDescription, pickupTimeFrame);
         this.maxSeats = maxSeats;
         this.availableSeats = availableSeats;
         this.meetupLocation = meetupLocation;
