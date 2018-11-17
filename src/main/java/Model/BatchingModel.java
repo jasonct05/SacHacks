@@ -1,11 +1,9 @@
 package Model;
 
 import Maps.Matcher;
-import lombok.Data;
 
 import java.util.*;
 
-@Data
 public class BatchingModel {
     private Set<Driver> driverList;
     private Set<Rider> riderList;

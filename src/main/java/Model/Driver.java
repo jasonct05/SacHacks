@@ -1,10 +1,17 @@
 package Model;
 
-import lombok.Data;
+import java.time.LocalDateTime;
 
-@Data
 public class Driver extends User {
-    public final int maxSeats;
-    public final int availableSeats;
-    public final String meetupLocation;
+    public int maxSeats;
+    public int availableSeats;
+    public String meetupLocation;
+
+    public Driver(String un, String uid, String sd, String ld, LocalDateTime pickupTimeFrame,
+                  int maxSeats, int availableSeats, String meetupLocation) {
+        super(un, uid, sd, ld, pickupTimeFrame);
+        this.maxSeats = maxSeats;
+        this.availableSeats = availableSeats;
+        this.meetupLocation = meetupLocation;
+    }
 }

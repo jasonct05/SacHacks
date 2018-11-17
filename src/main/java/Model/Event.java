@@ -1,11 +1,13 @@
 package Model;
 
-import lombok.Data;
-
 import java.time.LocalDateTime;
 
-@Data
 public class Event {
-    public final String eventName;
-    public final LocalDateTime eventDate;
+    public String eventName;
+    public LocalDateTime eventDate;
+
+    public Event(String en, LocalDateTime eventDate) {
+        this.eventName = en;
+        this.eventDate = eventDate;
+    }
 }
