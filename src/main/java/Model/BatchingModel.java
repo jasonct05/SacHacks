@@ -1,8 +1,10 @@
 package Model;
 
+import Maps.Matcher;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +31,21 @@ public class BatchingModel {
         return true;
     }
 
+    /**
+     * @return  Map who's key is the driver, and the value is the list of passengers
+     *          in ORDER of pickup
+     */
     public Map<Entities.Driver, List<Entities.Rider>> matchRiderAndDriver() {
-        // TODO: Workout some matching algorithm
-        return null;
+        Map<Entities.Driver, List<Entities.Rider>> matchedWithoutOrder = Matcher.findClusters(this.driverList, this.riderList);
+
+        // findOrder
+        Map<Entities.Driver, List<Entities.Rider>> matchedWithOrder = new HashMap<Entities.Driver, List<Entities.Rider>>();
+        for (Entities.Driver d : matchedWithOrder.keySet()) {
+            matchedWithOrder.put(d, Matcher.findOrder(d, matchedWithOrder.get(d), this.event));
+        }
+
+        // return map
+        return matchedWithOrder;
     }
 }
 
