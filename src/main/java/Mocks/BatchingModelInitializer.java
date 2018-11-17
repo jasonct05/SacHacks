@@ -1,16 +1,17 @@
 package Mocks;
 
 import Model.BatchingModel;
-import Model.Entities;
+import Model.Event;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class BatchingModelInitializer {
-    public static Model.BatchingModel mockBatchingModel= null;
+    public static Model.BatchingModel mockBatchingModel = null;
 
     public static Model.BatchingModel initializeEventModel() {
         if (mockBatchingModel == null) {
-            Entities.Event e = new Entities.Event("Oklahoma City Thunder at Sacramento Kings", new Date(2018, 11, 19 ))
+            LocalDateTime ldt = LocalDateTime.of(2018, 11, 21, 19, 00);
+            Event e = new Event("Oklahoma City Thunder at Sacramento Kings", ldt);
             mockBatchingModel = new BatchingModel(e);
         }
 
