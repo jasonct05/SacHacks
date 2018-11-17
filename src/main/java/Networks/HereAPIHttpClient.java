@@ -1,12 +1,27 @@
 package Networks;
 
 import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class HereAPIHttpClient {
 
-    public static HttpURLConnection connection = null;
+    public static final String SIMPLE_ROUTE_URL = "https://route.api.here.com/routing/7.2/calculateroute.json";
+    public static String HERE_API_APP_ID = ""   // put app id here
+    public static String HERE_API_APP_CODE = "" // put app code here
 
     private static endSimpleRouteRequest(String startLocation, String endLocation) throws Exception {
+        HttpURLConnection connection = null;
+        try {
+            URL url = new URL(SIMPLE_ROUTE_URL);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("app_id", HERE_API_APP_ID);
+            connection.setRequestProperty("app_code", HERE_API_APP_CODE);
+            connection.setRequestProperty("mode", "mode=fastest;car;traffic:disabled");
+            
+
+
+        }
 
     }
 }
