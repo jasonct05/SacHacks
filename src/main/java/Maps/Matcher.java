@@ -66,7 +66,11 @@ public class Matcher {
     public static List<Rider> findOrder(Map<Driver, Set<Rider>> driverToRiderUnorderedMapping) {
         //TODO: @Alex call maps api to find ordering
 
-        //request one to many matrix routing
+        /**
+         * request one to many matrix routing to get route for picking up neighbors
+         **/
+
+
         return null;
     }
 }
