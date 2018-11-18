@@ -1,9 +1,17 @@
 package Networks;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import java.util.Iterator;
+
 /**
  * This class is in charge of two things, parsing
  */
 public class JSONParser {
+
+    private static org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
+
    //input is JSON file from Ryan.
    //output is User
     public static boolean isDriver(String json) {
@@ -11,9 +19,25 @@ public class JSONParser {
     }
 
     public static Model.Driver parseDriver(String json) {
-        return new Model.Driver("","", "", "",null, 0, 0, "anywhere");
+        return null;
     }
     public static Model.Rider parseRider(String json) {
-        return new Model.Rider("","", "", "",null);
+        return null;
+    }
+
+    /**
+     * CODE BELOW IS JSON PARSER UTILITIES FOR HERE API
+     */
+    public static double findDistanceFromSimpleRouteRequest(String s) {
+        try {
+            JSONObject jo = (JSONObject) parser.parse(s);
+            JSONObject summary = (JSONObject) jo.get("summary");
+            System.out.println("DISTANCE IS " + (double) summary.get("distance"));
+            return (double) summary.get("distance");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return -1; // not found
     }
 }
