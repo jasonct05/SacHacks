@@ -1,6 +1,5 @@
 import Mocks.BatchingModelInitializer;
 import Mocks.DriverAndRiderMock;
-import Model.BatchingModel;
 import Model.Driver;
 import Model.Rider;
 import Networks.JSONGenerateHelper;

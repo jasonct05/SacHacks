@@ -9,9 +9,6 @@ import org.json.simple.JSONObject;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 
-/**
- * This class is in charge of two things, parsing
- */
 public class JSONParserHelper {
 
     private static org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
