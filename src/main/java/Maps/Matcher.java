@@ -45,7 +45,7 @@ public class Matcher {
             optimized.put(d, new HashSet<>());
         }
 
-        for (Rider r : driverRiderMappingInRegion.keySet()) { //riders to drivers
+        for (Rider r : driverRiderMappingInRegion.keySet()) {
             Set<Driver> drivers = driverRiderMappingInRegion.get(r);
 
             //get first driver
@@ -55,14 +55,16 @@ public class Matcher {
                     currDriver = d;
                 }
             }
+
             if (currDriver == null) {
                 System.out.println(r.userName + " takes the bus");
                 continue;
             }
+            
             int capacity = currDriver.availableSeats;
 
             //see if there is driver with more capacity;
-            for (Driver d : drivers) { //curr driver is full, and all other drivers are full.
+            for (Driver d : drivers) {
                 if (d.availableSeats == 0 || d.equals(currDriver)) {
                     continue;
                 }
