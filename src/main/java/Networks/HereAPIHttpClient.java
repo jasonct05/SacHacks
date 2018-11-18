@@ -1,11 +1,11 @@
 package Networks;
 
+import Model.Location;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import java.net.URI;
@@ -21,13 +21,13 @@ public class HereAPIHttpClient {
 
     public static final HttpClient httpclient = HttpClients.createDefault();
 
-    public static void simpleRouteRequest(double startLat, double startLong, double endLat, double endLong){
+    public static String simpleRouteRequest(Location driverLocation, Location riderLocation){
         Map<String, String> param = new HashMap<>();
-        param.put("waypoint0", "geo!" + startLat + "," + startLong);
-        param.put("waypoint1", "geo!" + endLat + "," + endLong);
-        param.put("waypoint1", "geo!" + endLat + "," + endLong);
+        param.put("waypoint0", "geo!" + driverLocation.latitude + "," + riderLocation.longtitude);
+        param.put("waypoint1", "geo!" + driverLocation.latitude + "," + riderLocation.longtitude);
+        param.put("waypoint1", "geo!" + driverLocation.latitude + "," + riderLocation.longtitude);
         param.put("mode", "fastest;car;traffic:disabled;");
-        mapsAPIRequestHelper(SIMPLE_ROUTE_URL, param);
+        return mapsAPIRequestHelper(SIMPLE_ROUTE_URL, param);
     }
 
     private static String mapsAPIRequestHelper(String URL, Map<String, String> parameters) {
