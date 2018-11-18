@@ -27,6 +27,7 @@ public class Matcher {
             for (Driver d : lDriver) {
                 String simpleRouteJSONResponse = HereAPIHttpClient.simpleRouteRequest(r.location, d.location);
                 double distance = JSONParser.findDistanceFromSimpleRouteRequest(simpleRouteJSONResponse);
+                System.out.println("distance from driver " + d.userName + " to " + r.userName + " is " + distance + " km");
                 if (distance <= MAX_DISTANCE) {
                     Set<Driver> driversInArea = result.get(r);
                     driversInArea.add(d);
