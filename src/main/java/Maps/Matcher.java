@@ -2,8 +2,11 @@ package Maps;
 import Model.Driver;
 import Model.Rider;
 
-//import org.apache.http.client.HttpClient;
-//import org.apache.http.impl.client.HttpClients;
+
+import Networks.HereAPIHttpClient;
+import Networks.JSONParser;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.HttpClients;
 
 
 import java.util.*;
@@ -22,9 +25,16 @@ public class Matcher {
         // shitty O(n^2) alg but fuck it
         for(Rider r : lRider) {
             for (Driver d : lDriver) {
-
+                String simpleRouteJSONResponse = HereAPIHttpClient.simpleRouteRequest(r.location, d.location);
+                double distance = JSONParser.findDistanceFromSimpleRouteRequest(simpleRouteJSONResponse);
+                if (distance <= MAX_DISTANCE) {
+                    Set<Driver> driversInArea = result.get(r);
+                    driversInArea.add(d);
+                    result.put(r, driversInArea);
+                }
             }
         }
+
        return result;
     }
 
