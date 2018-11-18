@@ -14,8 +14,9 @@ import java.util.Iterator;
 public class JsonSimpleReadExample {
 
     public static void main(String[] args) {
-        String json = "{\"Type\":\"rider\", \"userName\":\"Jason Tan\", \"userID\":\"1996\", \"shortDescription\":\"hat haaaair\", \"longDescription\":\"serious hat haaaaair\", \"localDateTime\":\"time\"}";
-        parseRider(json);
+//        String json = "{\"Type\":\"rider\", \"userName\":\"Jason Tan\", \"userID\":\"1996\", \"shortDescription\":\"hat haaaair\", \"longDescription\":\"serious hat haaaaair\", \"localDateTime\":\"time\"}";
+//        parseRider(json);
+
         String json2 = "{\"Type\":\"driver\", \"userName\":\"Jason Tan\", \"userID\":\"1996\", \"shortDescription\":\"hat haaaair\", \"longDescription\":\"serious hat haaaaair\", \"localDateTime\":\"time\", \"maxSeats\":\"3\", \"availableSeats\":\"2\", \"pickupLocation\":\"Campus Teriyaki\"}";
         parseDriver(json2);
     }
@@ -29,18 +30,15 @@ public class JsonSimpleReadExample {
             System.out.println(jsonObject);
             String userName = (String) jsonObject.get("userName");
             System.out.println(userName);
-
             String userID = (String) jsonObject.get("userID");
             System.out.println(userID);
-
             String shortDescription = (String) jsonObject.get("shortDescription");
             System.out.println(shortDescription);
-
             String longDescription = (String) jsonObject.get("longDescription");
             System.out.println(longDescription);
-
             String localDateTime = (String) jsonObject.get("localDateTime");
             System.out.println(localDateTime);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -71,7 +69,8 @@ public class JsonSimpleReadExample {
             String maxSeats = (String) jsonObject.get("maxSeats");
             System.out.println(maxSeats);
 
-            String availableSeats = (String) jsonObject.get("availableSeats");
+            int availableSeats = Integer.parseInt((String) jsonObject.get("availableSeats"));
+            //int availableSeats = ((Number) jsonObject.get("availableSeats")).intValue();
             System.out.println(availableSeats);
 
             String pickupLocation = (String) jsonObject.get("pickupLocation");

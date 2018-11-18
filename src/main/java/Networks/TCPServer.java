@@ -19,7 +19,6 @@ public class TCPServer {
                 // Error
             }
         }
-
         return socket;
     }
 }

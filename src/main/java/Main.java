@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args){
         Model.BatchingModel bm = BatchingModelInitializer.initializeEventModel();
         try {
-            HereAPIHttpClient.simpleRouteRequest(52.5, 13.4, 52.5, 13.45);
+         //   HereAPIHttpClient.simpleRouteRequest(52.5, 13.4, 52.5, 13.45);
         } catch(Exception e) {
 
         }

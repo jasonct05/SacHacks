@@ -1,2 +1,20 @@
-{"Type":"rider", "userName":"Jason Tan", "userID":"1996", "shortDescription":"hat haaaair", "longDescription":"serious hat haaaaair", "localDateTime":"time"}
-{"Type":"driver", "userName":"Jason Tan", "userID":"1996", "shortDescription":"hat haaaair", "longDescription":"serious hat haaaaair", "localDateTime":"time", "maxSeats":"3", "availableSeats":"2", "pickupLocation":"Campus Teriyaki"}
+{
+  "type":"rider",
+  "userName":"Jason Tan",
+  "userID":"1996",
+  "description":"hat haaaair",
+  "latitude":"serious hat haaaaair",
+  "longitude":"blah",
+  "pickupTimeFrame":"ASAFP"
+}
+{
+  "type":"driver",
+  "userName":"Jason Tan",
+  "userID":"1996",
+  "description":"hat haaaair",
+  "latitude":"serious hat haaaaair",
+  "longitude":"blah",
+  "pickupTimeFrame":"ASAFP",
+  "maxSeats":"3",
+  "pickupLocation":"Campus Teriyaki"
+}
