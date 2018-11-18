@@ -43,10 +43,11 @@ public class HTTPServer {
         String response = "Received Request";
         if (requestType == (JSONParserHelper.RequestType.ADD_DRIVER_REQUEST)) {
             Driver d = JSONParserHelper.parseDriver(jsonBody);
+            System.out.println("driver received " + d);
             bm.addDriver(d);
         } else if (requestType == (JSONParserHelper.RequestType.ADD_RIDER_REQUEST)) {
             Rider r = JSONParserHelper.parseRider(jsonBody);
-            System.out.println(r);
+            System.out.println("rider received " + r);
             bm.addRider(r);
         } else if (requestType == (JSONParserHelper.RequestType.TRIGGER_MATCHER_ALGORITHM)) {
             bm.matchRiderAndDriver();
