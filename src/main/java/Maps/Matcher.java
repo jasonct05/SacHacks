@@ -2,6 +2,7 @@ package Maps;
 import Model.Driver;
 import Model.Rider;
 
+import Networks.HereAPIHttpClient;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
 
@@ -22,7 +23,8 @@ public class Matcher {
         // shitty O(n^2) alg but fuck it
         for(Rider r : lRider) {
             for (Driver d : lDriver) {
-                double distance = callapi(r, d);
+                String simpleRouteResponse = HereAPIHttpClient.simpleRouteRequest(d.location, r.location);
+                double distance = JSONParser.findDistanceFromSimpleRouteRequest(simpleRouteResponse);
                 if (distance <= MAX_DISTANCE) {
                     Set<Driver> driversInArea = result.get(r);
                     driversInArea.add(d);
@@ -34,7 +36,6 @@ public class Matcher {
     }
 
     public static Map<Driver, Set<Rider>> findClusters(Map<Rider, Set<Driver>> driverRiderMappingInRegion, Set<Driver> lDriver) {
-        //TODO: @Alex call maps api to get clusters;
         Map<Driver, Set<Rider>> optimized = new HashMap<>();
         for (Driver d: lDriver) {
             optimized.put(d, new HashSet<>());
@@ -63,14 +64,28 @@ public class Matcher {
         return optimized;
     }
 
-    public static List<Rider> findOrder(Map<Driver, Set<Rider>> driverToRiderUnorderedMapping) {
-        //TODO: @Alex call maps api to find ordering
-
-        /**
-         * request one to many matrix routing to get route for picking up neighbors
-         **/
-
-
-        return null;
+    public static List<Rider> findOrder(Driver start, Set<Rider> riders) {
+        List<Rider> order = new ArrayList<>();
+        Location currentLocation = start.location;
+        while (!riders.isEmpty()) {
+            Map<Double, Rider> distances = new HashMap<>();
+            double min = Integer.MAX_VALUE;
+            //find all distances
+            for (Rider r : riders) {
+                String routeResponse = HereAPIHttpClient.simpleRouteRequest(currentLocation, r.location);
+                double distance = JSONParser.findDistanceFromSimpleRouteRequest(routeResponse);
+                distances.put(distance, r);
+                if (distance < min) {
+                    min = distance;
+                }
+            }
+            //add closest rider to order
+            order.add(distances.get(min));
+            //remove closest rider from rider set;
+            riders.remove(distances.get(min));
+            //set new start;
+            currentLocation = distances.get(min).location;
+        }
+        return order;
     }
 }
