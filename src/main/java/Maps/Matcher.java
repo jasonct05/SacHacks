@@ -54,7 +54,7 @@ public class Matcher {
 
             //see if there is driver with more capacity;
             for (Driver d : drivers) {
-                if (d.equals(currDriver) || d.availableSeats == 0) {
+                if (d.availableSeats == 0 || d.equals(currDriver)) {
                     continue;
                 }
 
