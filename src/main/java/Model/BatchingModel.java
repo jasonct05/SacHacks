@@ -68,6 +68,7 @@ public class BatchingModel {
         return true;
     }
 
+    // TODO: @Alex, make it work with both id as rider / driver
     public Pair<Driver, List<Rider>> getRoute(String id) {
         Driver currDriver = null;
         for (Driver d : matchRoute.keySet()) {
