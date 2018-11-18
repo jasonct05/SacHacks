@@ -6,13 +6,13 @@ import javax.mail.internet.MimeMessage;
 import java.util.*;
 
 public class SendEmail {
-    private static final String FROM = "KingScoopNotification@gmail.com";
-    private static final String FROM_PASS = "SacHacks2019";
+    private static final String FROM = "fanscoopnotification@gmail.com";
+    private static final String FROM_PASS = "sachacks";
     private static final String HOST = "smtp.gmail.com";
     private static final String[] TO_RIDER = {"jason.96@hotmail.com"};
     private static final String[] TO_DRIVER = {"ryanefendy95@gmail.com"};
     private static final String RIDER_SUBJECT = "Congrats! You've been scooped for ";
-    private static final String DRIVER_SUBJECT = "Congrats! We've found you fellow fans for !";
+    private static final String DRIVER_SUBJECT = "Congrats! We've found you fellow fans for ";
     private static final String DEFAULT_CONTENT = "Please refer to the app for more information.";
 
     public static void sendNotificationEmail(String event) {
@@ -46,7 +46,7 @@ public class SendEmail {
                 message.addRecipient(Message.RecipientType.TO, toAddress[i]);
             }
 
-            message.setSubject(Subject + " " + event);
+            message.setSubject(Subject + " " + event + "!");
             message.setText(DEFAULT_CONTENT);
             Transport transport = session.getTransport("smtp");
             transport.connect(HOST, FROM, FROM_PASS);
