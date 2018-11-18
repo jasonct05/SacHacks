@@ -40,7 +40,7 @@ public class BatchingModel {
         // Step 3: Find final matches
         Map<Driver, List<Rider>> driverToRiderOrderedMapping = new HashMap<>();
         for(Driver d : this.driverList) {
-            driverToRiderOrderedMapping.put(d, Matcher.findOrder(d, driverToRiderUnorderedMapping.get(d));
+            driverToRiderOrderedMapping.put(d, Matcher.findOrder(d, driverToRiderUnorderedMapping.get(d)));
         }
         return driverToRiderOrderedMapping;
     }

@@ -1,16 +1,11 @@
 package Maps;
 import Model.Driver;
+import Model.Location;
 import Model.Rider;
 
-<<<<<<< HEAD
 
 import Networks.HereAPIHttpClient;
 import Networks.JSONParser;
-=======
-import Networks.HereAPIHttpClient;
->>>>>>> alex
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.HttpClients;
 
 
 import java.util.*;
@@ -57,18 +52,21 @@ public class Matcher {
 
             //see if there is driver with more capacity;
             for (Driver d : drivers) {
-                if (d.availableSeats == 0) {
+                if (d.equals(currDriver) || d.availableSeats == 0) {
                     continue;
                 }
+
                 if (d.availableSeats > capacity) {
                     currDriver = d;
                     capacity = d.availableSeats;
                 }
             }
+
             //add rider to driver with most capacity
             optimized.get(currDriver).add(r);
             currDriver.availableSeats--;
         }
+        
         return optimized;
     }
 
@@ -76,24 +74,27 @@ public class Matcher {
         List<Rider> order = new ArrayList<>();
         Location currentLocation = start.location;
         while (!riders.isEmpty()) {
-            Map<Double, Rider> distances = new HashMap<>();
+            Rider closestRider = null;
             double min = Integer.MAX_VALUE;
+
             //find all distances
             for (Rider r : riders) {
                 String routeResponse = HereAPIHttpClient.simpleRouteRequest(currentLocation, r.location);
                 double distance = JSONParser.findDistanceFromSimpleRouteRequest(routeResponse);
-                distances.put(distance, r);
                 if (distance < min) {
                     min = distance;
+                    closestRider = r;
                 }
             }
+
             //add closest rider to order
-            order.add(distances.get(min));
+            order.add(closestRider);
             //remove closest rider from rider set;
-            riders.remove(distances.get(min));
+            riders.remove(closestRider);
             //set new start;
-            currentLocation = distances.get(min).location;
+            currentLocation = closestRider.location;
         }
+
         return order;
     }
 }
