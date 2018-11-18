@@ -45,6 +45,8 @@ public class HTTPServer {
 
         // call appropriate methods
         String response = "Received Request";
+        System.out.println("----------");
+        System.out.println("Received Request for " + requestType);
         if (requestType == (JSONParserHelper.RequestType.ADD_DRIVER_REQUEST)) {
             Driver d = JSONParserHelper.parseDriver(jsonBody);
             System.out.println("driver received " + d);
@@ -55,14 +57,8 @@ public class HTTPServer {
             bm.addRider(r);
         } else if (requestType == (JSONParserHelper.RequestType.TRIGGER_MATCHER_ALGORITHM)) {
             bm.matchRiderAndDriver();
-            // debug
-            for(Driver d : bm.getMatchRoute().keySet()) {
-                System.out.println(d + ": " + bm.getMatchRoute().get(d));
-            }
         } else if (requestType == (JSONParserHelper.RequestType.MATCH_REQUEST)) {
             String userId = JSONParserHelper.parseMatchRequest(jsonBody);
-            // TODO: Work on match request reply and stuff
-            // response = some json formatted string
             Pair<Driver, List<Rider>> route = bm.getRoute(userId);
             JSONObject jsonResponse = JSONGenerateHelper.generateRequestReply(route);
             response = jsonResponse.toString();
@@ -72,6 +68,9 @@ public class HTTPServer {
         OutputStream os = exchange.getResponseBody();
         os.write(response.getBytes());
         os.close();
+
+        System.out.println("Processed Request for " + requestType);
+        System.out.println("----------");
     }
 
     private static JSONObject convertJsonBody(HttpExchange exchange) {

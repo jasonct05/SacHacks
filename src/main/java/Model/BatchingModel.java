@@ -39,6 +39,7 @@ public class BatchingModel {
      *          in ORDER of pickup
      */
     public boolean matchRiderAndDriver() {
+        System.out.println("-- Begin Route Matching Algorithm --");
         // Step 1: Find all riders in the same region as drivers
         Map<Rider, Set<Driver>> driverToPotentialRiderMapping = Matcher.findRidersInRegion(this.driverList, new HashSet<Rider>(this.riderList));
         System.out.println("---- Processed step 1 ----");
@@ -65,13 +66,22 @@ public class BatchingModel {
         }
 
         this.matchRoute = driverToRiderOrderedMapping;
+        System.out.println("-- Finish Route Matching Algorithm --");
+
         return true;
     }
 
     public Pair<Driver, List<Rider>> getRoute(String id) {
-        for (Driver d : matchRoute.keySet()) {
-            if (d.userId.equals(id) || matchRoute.get(d).contains(id)) {
+        for (Driver d : this.matchRoute.keySet()) {
+            if (d.userName.equalsIgnoreCase(id)) {
                 return new Pair<>(d, matchRoute.get(d));
+            }
+
+            List<Rider> lRider = this.matchRoute.get(d);
+            for(Rider r : lRider) {
+                if (r.userName.equalsIgnoreCase(id)) {
+                    return new Pair<>(d, matchRoute.get(d));
+                }
             }
         }
         return null;
