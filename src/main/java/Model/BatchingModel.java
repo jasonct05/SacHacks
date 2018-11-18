@@ -3,11 +3,13 @@ package Model;
 import Maps.Matcher;
 
 import java.util.*;
+import javafx.util.Pair;
 
 public class BatchingModel {
     private Set<Driver> driverList;
     private Set<Rider> riderList;
     private Event event;
+    private Map<Driver, List<Rider>> driverToRiderOrderedMapping;
 
     public BatchingModel(Event event) {
         this.driverList = new HashSet<Driver>();
@@ -46,7 +48,7 @@ public class BatchingModel {
         }
 
         // Step 3: Find final matches
-        Map<Driver, List<Rider>> driverToRiderOrderedMapping = new HashMap<>();
+        driverToRiderOrderedMapping = new HashMap<>();
         for(Driver d : this.driverList) {
             driverToRiderOrderedMapping.put(d, Matcher.findOrder(d, driverToRiderUnorderedMapping.get(d)));
         }
@@ -56,6 +58,17 @@ public class BatchingModel {
             System.out.println(d + " " + driverToRiderOrderedMapping.get(d));
         }
         return driverToRiderOrderedMapping;
+    }
+
+    public Pair<Driver, List<Rider>> getRoute(String id) {
+        Driver currDriver = null;
+        for (Driver d : driverToRiderOrderedMapping.keySet()) {
+            if (d.userId.equals(id)) {
+                currDriver = d;
+                break;
+            }
+        }
+        return new Pair<>(currDriver, driverToRiderOrderedMapping.get(currDriver));
     }
 }
 
