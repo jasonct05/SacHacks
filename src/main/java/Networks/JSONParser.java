@@ -31,9 +31,16 @@ public class JSONParser {
     public static double findDistanceFromSimpleRouteRequest(String s) {
         try {
             JSONObject jo = (JSONObject) parser.parse(s);
-            JSONObject summary = (JSONObject) jo.get("summary");
-            System.out.println("DISTANCE IS " + (double) summary.get("distance"));
-            return (double) summary.get("distance");
+            jo = (JSONObject) jo.get("response");
+            JSONArray routeArray = ((JSONArray) jo.get("route"));
+
+            Iterator routeIterator = routeArray.iterator();
+            while (routeIterator.hasNext()) {
+                JSONObject result = (JSONObject) routeIterator.next();
+                System.out.println(result.toString());
+                result = (JSONObject) result.get("summary");
+                return ((Number) result.get("distance")).doubleValue();
+            }
         } catch (Exception e) {
             System.out.println(e);
         }

@@ -51,9 +51,6 @@ public class HereAPIHttpClient {
             System.out.println("Received Response");
 
             HttpEntity entity = response.getEntity();
-
-            System.out.println(EntityUtils.toString(entity));
-
             return EntityUtils.toString(entity);
         } catch (Exception e) {
             System.out.println(e);

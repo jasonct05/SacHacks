@@ -1,3 +1,4 @@
+import Maps.Matcher;
 import Mocks.BatchingModelInitializer;
 import Model.BatchingModel;
 import Model.Driver;
@@ -11,7 +12,7 @@ public class Main {
     public static void main(String[] args){
         Model.BatchingModel bm = BatchingModelInitializer.initializeEventModel();
         try {
-            HereAPIHttpClient.simpleRouteRequest(52.5, 13.4, 52.5, 13.45);
+            Matcher.findRidersInRegion(Mocks.DriverAndRiderMock.createMockDriverSet(), Mocks.DriverAndRiderMock.createMockRiderSet());
         } catch(Exception e) {
 
         }
