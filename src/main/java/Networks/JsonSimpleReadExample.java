@@ -14,11 +14,10 @@ import java.util.Iterator;
 public class JsonSimpleReadExample {
 
     public static void main(String[] args) {
-//        String json = "{\"Type\":\"rider\", \"userName\":\"Jason Tan\", \"userID\":\"1996\", \"shortDescription\":\"hat haaaair\", \"longDescription\":\"serious hat haaaaair\", \"localDateTime\":\"time\"}";
-//        parseRider(json);
-
-        String json2 = "{\"Type\":\"driver\", \"userName\":\"Jason Tan\", \"userID\":\"1996\", \"shortDescription\":\"hat haaaair\", \"longDescription\":\"serious hat haaaaair\", \"localDateTime\":\"time\", \"maxSeats\":\"3\", \"availableSeats\":\"2\", \"pickupLocation\":\"Campus Teriyaki\"}";
-        parseDriver(json2);
+        String json =  "{\"type\":\"rider\",\"userName\":\"Jason Tan\",\"userID\":\"1996\",\"description\":\"hat haaaair\",\"latitude\":\"serious hat haaaaair\",\"longitude\":\"blah\",\"pickupTimeFrame\":\"ASAFP\"}";
+        parseRider(json);
+        //String json2 = "{\"type\":\"rider\",\"userName\":\"Jason Tan\",\"userID\":\"1996\",\"description\":\"hat haaaair\",\"latitude\":\"serious hat haaaaair\",\"longitude\":\"blah\",\"pickupTimeFrame\":\"ASAFP\",\"maxSeats\":\"3\", \"pickupLocation\":\"Campus Teriyaki\"}";
+        //parseDriver(json2);
     }
 
     public static void parseRider(String json) {
@@ -27,18 +26,15 @@ public class JsonSimpleReadExample {
             Object obj = parser.parse(json);//new FileReader("test.json"));
 
             JSONObject jsonObject = (JSONObject) obj;
-            System.out.println(jsonObject);
+            //System.out.println(jsonObject);
+            String type = (String) jsonObject.get("type");
             String userName = (String) jsonObject.get("userName");
-            System.out.println(userName);
             String userID = (String) jsonObject.get("userID");
-            System.out.println(userID);
-            String shortDescription = (String) jsonObject.get("shortDescription");
-            System.out.println(shortDescription);
-            String longDescription = (String) jsonObject.get("longDescription");
-            System.out.println(longDescription);
-            String localDateTime = (String) jsonObject.get("localDateTime");
-            System.out.println(localDateTime);
-
+            String description = (String) jsonObject.get("description");
+            String latitude = (String) jsonObject.get("latitude");
+            String longitude = (String) jsonObject.get("longitude");
+            String pickupTimeFrame = (String) jsonObject.get("pickupTimeFrame");
+            System.out.println(type + userName + userID + description + latitude + longitude + pickupTimeFrame + pickupTimeFrame);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -50,31 +46,18 @@ public class JsonSimpleReadExample {
             Object obj = parser.parse(json);//new FileReader("test.json"));
 
             JSONObject jsonObject = (JSONObject) obj;
-            System.out.println(jsonObject);
+            //System.out.println(jsonObject);
+            String type = (String) jsonObject.get("type");
             String userName = (String) jsonObject.get("userName");
-            System.out.println(userName);
-
             String userID = (String) jsonObject.get("userID");
-            System.out.println(userID);
-
-            String shortDescription = (String) jsonObject.get("shortDescription");
-            System.out.println(shortDescription);
-
-            String longDescription = (String) jsonObject.get("longDescription");
-            System.out.println(longDescription);
-
-            String localDateTime = (String) jsonObject.get("localDateTime");
-            System.out.println(localDateTime);
-
-            String maxSeats = (String) jsonObject.get("maxSeats");
-            System.out.println(maxSeats);
-
+            String description = (String) jsonObject.get("description");
+            String latitude = (String) jsonObject.get("latitude");
+            String longitude = (String) jsonObject.get("longitude");
+            String pickupTimeFrame = (String) jsonObject.get("pickupTimeFrame");
             int availableSeats = Integer.parseInt((String) jsonObject.get("availableSeats"));
-            //int availableSeats = ((Number) jsonObject.get("availableSeats")).intValue();
-            System.out.println(availableSeats);
-
             String pickupLocation = (String) jsonObject.get("pickupLocation");
-            System.out.println(pickupLocation);
+
+            System.out.println(type + userName + userID + description + latitude + longitude + pickupTimeFrame + pickupTimeFrame + availableSeats + pickupLocation);
         } catch (ParseException e) {
             e.printStackTrace();
         }
