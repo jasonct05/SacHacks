@@ -1,6 +1,7 @@
 import Mocks.BatchingModelInitializer;
 import Model.BatchingModel;
 import Model.Driver;
+import Networks.HereAPIHttpClient;
 import Networks.JSONParser;
 
 import java.net.*;
@@ -9,7 +10,12 @@ import java.io.*;
 public class Main {
     public static void main(String[] args){
         Model.BatchingModel bm = BatchingModelInitializer.initializeEventModel();
+        try {
+            HereAPIHttpClient.simpleRouteRequest("", "");
+        } catch(Exception e) {
 
+        }
+        /*
         // TODO: Set up connections singleton here
         ServerSocket ss = Networks.TCPServer.getTCPServerSocket();
         while (true) {
@@ -38,6 +44,7 @@ public class Main {
             // if cutoff time
                 // call model matching algorithm
         }
+        */
 
     }
 

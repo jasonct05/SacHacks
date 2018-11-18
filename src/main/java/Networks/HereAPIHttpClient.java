@@ -1,75 +1,58 @@
 package Networks;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import java.net.URI;
 
 public class HereAPIHttpClient {
 
     public static final String SIMPLE_ROUTE_URL = "https://route.api.here.com/routing/7.2/calculateroute.json";
-    public static String HERE_API_APP_ID = "";   // put app id here
-    public static String HERE_API_APP_CODE = ""; // put app code here
 
-    private static void endSimpleRouteRequest(String startLocation, String endLocation) throws Exception {
-        HttpURLConnection connection = null;
-        try {
-            URL url = new URL(SIMPLE_ROUTE_URL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("app_id", HERE_API_APP_ID);
-            connection.setRequestProperty("app_code", HERE_API_APP_CODE);
-            connection.setRequestProperty("mode", "mode=fastest;car;traffic:disabled");
+    public static String HERE_API_APP_ID = "MX1s7TrrSy2Zc9dPuu3U";   // put app id here
+    public static String HERE_API_APP_CODE = "xZizd8K9E0ZS8Rnn4J2rvA"; // put app code here
 
+    public static String URL_PARAMETERS = "app_id=MX1s7TrrSy2Zc9dPuu3U&app_code=xZizd8K9E0ZS8Rnn4J2rvA&waypoint0=geo!52.5,13.4&waypoint1=geo!52.5,13.45&mode=fastest;car;traffic:disabled;";
 
+    public static final HttpClient httpclient = HttpClients.createDefault();
 
-        } catch (Exception e){
-
-        }
-
+    public static void simpleRouteRequest(String startLocation, String endLocation){
+        mapsAPIRequestHelper(SIMPLE_ROUTE_URL, URL_PARAMETERS);
     }
-}/*
 
-    public static String executePost(String targetURL, String urlParameters) {
-        HttpURLConnection connection = null;
-
+    private static String mapsAPIRequestHelper(String URL, String urlParameters) {
         try {
-            //Create connection
-            URL url = new URL(targetURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded");
+            System.out.println("begin url build");
+            URIBuilder builder = new URIBuilder(URL);
 
-            connection.setRequestProperty("Content-Length",
-                    Integer.toString(urlParameters.getBytes().length));
-            connection.setRequestProperty("Content-Language", "en-US");
+            builder.addParameter("app_id", "MX1s7TrrSy2Zc9dPuu3U");
+            builder.addParameter("app_code", "xZizd8K9E0ZS8Rnn4J2rvA");
+            builder.addParameter("waypoint0", "geo!52.5,13.4");
+            builder.addParameter("waypoint1", "geo!52.5,13.45");
+            builder.addParameter("mode", "fastest;car;traffic:disabled;");
 
-            connection.setUseCaches(false);
-            connection.setDoOutput(true);
+            URI uri = builder.build();
+            HttpPost request = new HttpPost(uri);
 
-            //Send request
-            DataOutputStream wr = new DataOutputStream (
-                    connection.getOutputStream());
-            wr.writeBytes(urlParameters);
-            wr.close();
 
-            //Get Response
-            InputStream is = connection.getInputStream();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
-            String line;
-            while ((line = rd.readLine()) != null) {
-                response.append(line);
-                response.append('\r');
-            }
-            rd.close();
-            return response.toString();
+            System.out.println("Sending Request");
+            HttpResponse response = httpclient.execute(request);
+            System.out.println("Received Response");
+
+            HttpEntity entity = response.getEntity();
+
+            System.out.println(EntityUtils.toString(entity));
+
+            return EntityUtils.toString(entity);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
+            System.out.println(e);
         }
+
+        return null;
     }
-    */
+}
