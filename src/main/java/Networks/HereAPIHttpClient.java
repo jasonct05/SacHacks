@@ -1,57 +1,64 @@
 package Networks;
 
-import java.net.HttpURLConnection;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HereAPIHttpClient {
 
-    public static HttpURLConnection connection = null;
+    public static final String SIMPLE_ROUTE_URL = "https://route.api.here.com/routing/7.2/calculateroute.json";
 
-    private static endSimpleRouteRequest(String startLocation, String endLocation) throws Exception {
+    public static String HERE_API_APP_ID = "MX1s7TrrSy2Zc9dPuu3U";   // put app id here
+    public static String HERE_API_APP_CODE = "xZizd8K9E0ZS8Rnn4J2rvA"; // put app code here
 
+    public static final HttpClient httpclient = HttpClients.createDefault();
+
+    public static void simpleRouteRequest(double startLat, double startLong, double endLat, double endLong){
+        Map<String, String> param = new HashMap<>();
+        param.put("waypoint0", "geo!" + startLat + "," + startLong);
+        param.put("waypoint1", "geo!" + endLat + "," + endLong);
+        param.put("waypoint1", "geo!" + endLat + "," + endLong);
+        param.put("mode", "fastest;car;traffic:disabled;");
+        mapsAPIRequestHelper(SIMPLE_ROUTE_URL, param);
+    }
+
+    private static String mapsAPIRequestHelper(String URL, Map<String, String> parameters) {
+        try {
+            System.out.println("begin url build");
+            URIBuilder builder = new URIBuilder(URL);
+
+            builder.addParameter("app_id", HERE_API_APP_ID);
+            builder.addParameter("app_code", HERE_API_APP_CODE);
+
+            for(String key : parameters.keySet()) {
+                builder.addParameter(key, parameters.get(key));
+            }
+
+            URI uri = builder.build();
+            HttpPost request = new HttpPost(uri);
+
+
+            System.out.println("Sending Request");
+            HttpResponse response = httpclient.execute(request);
+            System.out.println("Received Response");
+
+            HttpEntity entity = response.getEntity();
+
+            System.out.println(EntityUtils.toString(entity));
+
+            return EntityUtils.toString(entity);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
     }
 }
-
-    public static String executePost(String targetURL, String urlParameters) {
-        HttpURLConnection connection = null;
-
-        try {
-            //Create connection
-            URL url = new URL(targetURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded");
-
-            connection.setRequestProperty("Content-Length",
-                    Integer.toString(urlParameters.getBytes().length));
-            connection.setRequestProperty("Content-Language", "en-US");
-
-            connection.setUseCaches(false);
-            connection.setDoOutput(true);
-
-            //Send request
-            DataOutputStream wr = new DataOutputStream (
-                    connection.getOutputStream());
-            wr.writeBytes(urlParameters);
-            wr.close();
-
-            //Get Response
-            InputStream is = connection.getInputStream();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
-            String line;
-            while ((line = rd.readLine()) != null) {
-                response.append(line);
-                response.append('\r');
-            }
-            rd.close();
-            return response.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
-    }
