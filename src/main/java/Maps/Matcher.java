@@ -35,12 +35,12 @@ public class Matcher {
                 }
             }
         }
-
        return result;
     }
 
     public static Map<Driver, Set<Rider>> findClusters(Map<Rider, Set<Driver>> driverRiderMappingInRegion, Set<Driver> lDriver) {
         Map<Driver, Set<Rider>> optimized = new HashMap<>();
+
         for (Driver d: lDriver) {
             optimized.put(d, new HashSet<>());
         }
@@ -48,8 +48,19 @@ public class Matcher {
         for (Rider r : driverRiderMappingInRegion.keySet()) {
             Set<Driver> drivers = driverRiderMappingInRegion.get(r);
 
-            //get driver
-            Driver currDriver = drivers.iterator().next();
+            //get first driver
+            Driver currDriver = null;
+            for (Driver d : drivers) {
+                if (d.availableSeats > 0) {
+                    currDriver = d;
+                }
+            }
+
+            if (currDriver == null) {
+                System.out.println(r.userName + " takes the bus");
+                continue;
+            }
+
             int capacity = currDriver.availableSeats;
 
             //see if there is driver with more capacity;
