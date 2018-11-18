@@ -16,8 +16,8 @@ public class JsonSimpleReadExample {
     public static void main(String[] args) {
         String json =  "{\"type\":\"rider\",\"userName\":\"Jason Tan\",\"userID\":\"1996\",\"description\":\"hat haaaair\",\"latitude\":\"serious hat haaaaair\",\"longitude\":\"blah\",\"pickupTimeFrame\":\"ASAFP\"}";
         parseRider(json);
-        //String json2 = "{\"type\":\"rider\",\"userName\":\"Jason Tan\",\"userID\":\"1996\",\"description\":\"hat haaaair\",\"latitude\":\"serious hat haaaaair\",\"longitude\":\"blah\",\"pickupTimeFrame\":\"ASAFP\",\"maxSeats\":\"3\", \"pickupLocation\":\"Campus Teriyaki\"}";
-        //parseDriver(json2);
+        String json2 = "{\"type\":\"rider\",\"userName\":\"Jason Tan\",\"userID\":\"1996\",\"description\":\"hat haaaair\",\"latitude\":\"serious hat haaaaair\",\"longitude\":\"blah\",\"pickupTimeFrame\":\"ASAFP\",\"maxSeats\":\"3\", \"pickupLocation\":\"Campus Teriyaki\"}";
+        parseDriver(json2);
     }
 
     public static void parseRider(String json) {
@@ -54,10 +54,10 @@ public class JsonSimpleReadExample {
             String latitude = (String) jsonObject.get("latitude");
             String longitude = (String) jsonObject.get("longitude");
             String pickupTimeFrame = (String) jsonObject.get("pickupTimeFrame");
-            int availableSeats = Integer.parseInt((String) jsonObject.get("availableSeats"));
+            int maxSeats = Integer.parseInt((String) jsonObject.get("maxSeats"));
             String pickupLocation = (String) jsonObject.get("pickupLocation");
 
-            System.out.println(type + userName + userID + description + latitude + longitude + pickupTimeFrame + pickupTimeFrame + availableSeats + pickupLocation);
+            System.out.println(type + userName + userID + description + latitude + longitude + pickupTimeFrame + pickupTimeFrame + maxSeats + pickupLocation);
         } catch (ParseException e) {
             e.printStackTrace();
         }
