@@ -60,7 +60,7 @@ public class Matcher {
                 System.out.println(r.userName + " takes the bus");
                 continue;
             }
-            
+
             int capacity = currDriver.availableSeats;
 
             //see if there is driver with more capacity;
