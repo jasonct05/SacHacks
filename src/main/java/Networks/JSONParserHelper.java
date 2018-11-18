@@ -54,7 +54,6 @@ public class JSONParserHelper {
     }
 
     public static Driver parseDriver(JSONObject jsonObject) {
-        System.out.println(jsonObject);
         return new Driver(
                 (String) jsonObject.get("user_name"),
                 (String) jsonObject.get("user_id"),
@@ -65,6 +64,10 @@ public class JSONParserHelper {
                 Integer.parseInt((String) jsonObject.get("seat_available")),
                 (String) jsonObject.get("rendezvous")
         );
+    }
+
+    public static String parseMatchRequest(JSONObject jsonObject) {
+        return (String) jsonObject.get("user_name");
     }
 
     /**

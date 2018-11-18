@@ -1,7 +1,9 @@
 import Mocks.BatchingModelInitializer;
 import Mocks.DriverAndRiderMock;
+import Model.BatchingModel;
 import Model.Driver;
 import Model.Rider;
+import Networks.JSONGenerateHelper;
 import Networks.JSONParserHelper;
 import com.sun.net.httpserver.*;
 
@@ -11,7 +13,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.util.List;
 
+import javafx.util.Pair;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -51,14 +55,17 @@ public class HTTPServer {
             bm.addRider(r);
         } else if (requestType == (JSONParserHelper.RequestType.TRIGGER_MATCHER_ALGORITHM)) {
             bm.matchRiderAndDriver();
-
             // debug
             for(Driver d : bm.getMatchRoute().keySet()) {
                 System.out.println(d + ": " + bm.getMatchRoute().get(d));
             }
         } else if (requestType == (JSONParserHelper.RequestType.MATCH_REQUEST)) {
+            String userId = JSONParserHelper.parseMatchRequest(jsonBody);
             // TODO: Work on match request reply and stuff
             // response = some json formatted string
+            Pair<Driver, List<Rider>> route = bm.getRoute(userId);
+            JSONObject jsonResponse = JSONGenerateHelper.generateRequestReply(route);
+            response = jsonResponse.toString();
         }
 
         exchange.sendResponseHeaders(200, response.getBytes().length);
