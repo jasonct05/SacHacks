@@ -5,7 +5,7 @@ import Model.Rider;
 
 
 import Networks.HereAPIHttpClient;
-import Networks.JSONParser;
+import Networks.JSONParserHelper;
 
 
 import java.util.*;
@@ -26,7 +26,7 @@ public class Matcher {
             for (Driver d : lDriver) {
                 System.out.println("finding distance from " + r.location + " to " + d.location);
                 String simpleRouteJSONResponse = HereAPIHttpClient.simpleRouteRequest(r.location, d.location);
-                double distance = JSONParser.findDistanceFromSimpleRouteRequest(simpleRouteJSONResponse);
+                double distance = JSONParserHelper.findDistanceFromSimpleRouteRequest(simpleRouteJSONResponse);
                 System.out.println("distance from driver " + d.userName + " to " + r.userName + " is " + distance + " m");
                 if (distance <= MAX_DISTANCE) {
                     Set<Driver> driversInArea = result.get(r);
@@ -93,7 +93,7 @@ public class Matcher {
             //find all distances
             for (Rider r : riders) {
                 String routeResponse = HereAPIHttpClient.simpleRouteRequest(currentLocation, r.location);
-                double distance = JSONParser.findDistanceFromSimpleRouteRequest(routeResponse);
+                double distance = JSONParserHelper.findDistanceFromSimpleRouteRequest(routeResponse);
                 if (distance < min) {
                     min = distance;
                     closestRider = r;
