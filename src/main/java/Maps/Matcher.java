@@ -11,7 +11,7 @@ import Networks.JSONParser;
 import java.util.*;
 
 public class Matcher {
-    public static final double MAX_DISTANCE = 4.20; // in miles
+    public static final double MAX_DISTANCE = 6900; // in miles
 
     public static Map<Rider, Set<Driver>> findRidersInRegion(Set<Driver> lDriver, Set<Rider> lRider) {
         // initialize
@@ -24,9 +24,10 @@ public class Matcher {
         // shitty O(n^2) alg but fuck it
         for(Rider r : lRider) {
             for (Driver d : lDriver) {
+                System.out.println("finding distance from " + r.location + " to " + d.location);
                 String simpleRouteJSONResponse = HereAPIHttpClient.simpleRouteRequest(r.location, d.location);
                 double distance = JSONParser.findDistanceFromSimpleRouteRequest(simpleRouteJSONResponse);
-                System.out.println("distance from driver " + d.userName + " to " + r.userName + " is " + distance + " km");
+                System.out.println("distance from driver " + d.userName + " to " + r.userName + " is " + distance + " m");
                 if (distance <= MAX_DISTANCE) {
                     Set<Driver> driversInArea = result.get(r);
                     driversInArea.add(d);
@@ -43,6 +44,7 @@ public class Matcher {
         for (Driver d: lDriver) {
             optimized.put(d, new HashSet<>());
         }
+
         for (Rider r : driverRiderMappingInRegion.keySet()) {
             Set<Driver> drivers = driverRiderMappingInRegion.get(r);
 
@@ -52,7 +54,7 @@ public class Matcher {
 
             //see if there is driver with more capacity;
             for (Driver d : drivers) {
-                if (d.equals(currDriver) || d.availableSeats == 0) {
+                if (d.availableSeats == 0 || d.equals(currDriver)) {
                     continue;
                 }
 

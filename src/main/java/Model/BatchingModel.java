@@ -33,14 +33,27 @@ public class BatchingModel {
     public Map<Driver, List<Rider>> matchRiderAndDriver() {
         // Step 1: Find all riders in the same region as drivers
         Map<Rider, Set<Driver>> driverToPotentialRiderMapping = Matcher.findRidersInRegion(this.driverList, new HashSet<Rider>(this.riderList));
+        System.out.println("---- Processed step 1 ----");
+        for(Rider r : driverToPotentialRiderMapping.keySet()) {
+            System.out.println(r + " " + driverToPotentialRiderMapping.get(r));
+        }
 
         // Step 2: Match riders to drivers
         Map<Driver, Set<Rider>> driverToRiderUnorderedMapping = Matcher.findClusters(driverToPotentialRiderMapping, this.driverList);
+        System.out.println("---- Processed step 2 ----");
+        for(Driver d : driverToRiderUnorderedMapping.keySet()) {
+            System.out.println(d + " " + driverToRiderUnorderedMapping.get(d));
+        }
 
         // Step 3: Find final matches
         Map<Driver, List<Rider>> driverToRiderOrderedMapping = new HashMap<>();
         for(Driver d : this.driverList) {
             driverToRiderOrderedMapping.put(d, Matcher.findOrder(d, driverToRiderUnorderedMapping.get(d)));
+        }
+
+        System.out.println("---- Processed step 3 ----");
+        for(Driver d : driverToRiderOrderedMapping.keySet()) {
+            System.out.println(d + " " + driverToRiderOrderedMapping.get(d));
         }
         return driverToRiderOrderedMapping;
     }
