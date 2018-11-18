@@ -1,3 +1,8 @@
+import Mocks.BatchingModelInitializer;
+import Mocks.DriverAndRiderMock;
+import Model.Driver;
+import Model.Rider;
+import Networks.JSONParserHelper;
 import com.sun.net.httpserver.*;
 
 import java.io.IOException;
@@ -11,13 +16,16 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import static Networks.JSONParserHelper.parseRequestType;
 
-// The tutorial can be found just here on the SSaurel's Blog :
-// https://www.ssaurel.com/blog/create-a-simple-http-web-server-in-java
-// Each Client Connection will be managed in a dedicated Thread
 public class HTTPServer {
+    public static final int PORT_NUMBER = 8500;
+
+    public static Model.BatchingModel bm = BatchingModelInitializer.initializeEventModel();
     public static void main(String[] args) throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(8500), 0);
+        // remove me for primer
+        DriverAndRiderMock.populateBatchingModel(bm);
+        HttpServer server = HttpServer.create(new InetSocketAddress(PORT_NUMBER), 0);
         HttpContext context = server.createContext("/");
         context.setHandler(HTTPServer::handleRequest);
         server.start();
@@ -26,44 +34,52 @@ public class HTTPServer {
 
     private static void handleRequest(HttpExchange exchange) throws IOException {
         URI requestURI = exchange.getRequestURI();
-        printRequestInfo(exchange);
-        String response = "This is the response at " + requestURI;
+        JSONObject jsonBody = convertJsonBody(exchange);
+
+        // get request type
+        JSONParserHelper.RequestType requestType = parseRequestType(jsonBody);
+
+        // call appropriate methods
+        String response = "Received Request";
+        if (requestType == (JSONParserHelper.RequestType.ADD_DRIVER_REQUEST)) {
+            Driver d = JSONParserHelper.parseDriver(jsonBody);
+            bm.addDriver(d);
+        } else if (requestType == (JSONParserHelper.RequestType.ADD_RIDER_REQUEST)) {
+            Rider r = JSONParserHelper.parseRider(jsonBody);
+            System.out.println(r);
+            bm.addRider(r);
+        } else if (requestType == (JSONParserHelper.RequestType.TRIGGER_MATCHER_ALGORITHM)) {
+            bm.matchRiderAndDriver();
+
+            // debug
+            for(Driver d : bm.getMatchRoute().keySet()) {
+                System.out.println(d + ": " + bm.getMatchRoute().get(d));
+            }
+        } else if (requestType == (JSONParserHelper.RequestType.MATCH_REQUEST)) {
+            // TODO: Work on match request reply and stuff
+            // response = some json formatted string
+        }
+
         exchange.sendResponseHeaders(200, response.getBytes().length);
         OutputStream os = exchange.getResponseBody();
         os.write(response.getBytes());
         os.close();
     }
 
-    private static void printRequestInfo(HttpExchange exchange) {
-        System.out.println("-- headers --");
-        Headers requestHeaders = exchange.getRequestHeaders();
-        requestHeaders.entrySet().forEach(System.out::println);
-
-        System.out.println("-- principle --");
-        HttpPrincipal principal = exchange.getPrincipal();
-        System.out.println(principal);
-
-        System.out.println("-- HTTP method --");
-        String requestMethod = exchange.getRequestMethod();
-        System.out.println(requestMethod);
-
-        System.out.println("-- query --");
-        URI requestURI = exchange.getRequestURI();
-        String query = requestURI.getQuery();
-        System.out.println(query);
-
-        System.out.println("-- body --");
+    private static JSONObject convertJsonBody(HttpExchange exchange) {
         InputStream iostream = exchange.getRequestBody();
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject)jsonParser.parse(
                     new InputStreamReader(iostream, "UTF-8"));
 
-            System.out.println(jsonObject.toString());
+            return jsonObject;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        return null;
     }
+
 }
