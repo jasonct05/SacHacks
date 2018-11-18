@@ -33,6 +33,7 @@ public class BatchingModel {
     public Map<Driver, List<Rider>> getMatchRoute() {
         return this.matchRoute;
     }
+    public Event getEvent() { return this.event; }
 
     /**
      * @return  Map who's key is the driver, and the value is the list of passengers

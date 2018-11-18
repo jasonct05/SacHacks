@@ -20,6 +20,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import static Networks.JSONParserHelper.parseRequestType;
+import static Networks.SendEmail.sendNotificationEmail;
 
 public class HTTPServer {
     public static final int PORT_NUMBER = 8500;
@@ -56,6 +57,7 @@ public class HTTPServer {
             bm.addRider(r);
         } else if (requestType == (JSONParserHelper.RequestType.TRIGGER_MATCHER_ALGORITHM)) {
             bm.matchRiderAndDriver();
+            sendNotificationEmail(bm.getEvent().eventName);
         } else if (requestType == (JSONParserHelper.RequestType.MATCH_REQUEST)) {
             String userId = JSONParserHelper.parseMatchRequest(jsonBody);
             Pair<Driver, List<Rider>> route = bm.getRoute(userId);
