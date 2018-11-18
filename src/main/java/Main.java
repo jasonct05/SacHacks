@@ -45,7 +45,5 @@ public class Main {
 
     }
 
-    public static boolean receiveUserDetails() {
-        return true;
-    }
+
 }
