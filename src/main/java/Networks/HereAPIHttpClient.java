@@ -9,6 +9,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HereAPIHttpClient {
 
@@ -17,24 +19,28 @@ public class HereAPIHttpClient {
     public static String HERE_API_APP_ID = "MX1s7TrrSy2Zc9dPuu3U";   // put app id here
     public static String HERE_API_APP_CODE = "xZizd8K9E0ZS8Rnn4J2rvA"; // put app code here
 
-    public static String URL_PARAMETERS = "app_id=MX1s7TrrSy2Zc9dPuu3U&app_code=xZizd8K9E0ZS8Rnn4J2rvA&waypoint0=geo!52.5,13.4&waypoint1=geo!52.5,13.45&mode=fastest;car;traffic:disabled;";
-
     public static final HttpClient httpclient = HttpClients.createDefault();
 
-    public static void simpleRouteRequest(String startLocation, String endLocation){
-        mapsAPIRequestHelper(SIMPLE_ROUTE_URL, URL_PARAMETERS);
+    public static void simpleRouteRequest(double startLat, double startLong, double endLat, double endLong){
+        Map<String, String> param = new HashMap<>();
+        param.put("waypoint0", "geo!" + startLat + "," + startLong);
+        param.put("waypoint1", "geo!" + endLat + "," + endLong);
+        param.put("waypoint1", "geo!" + endLat + "," + endLong);
+        param.put("mode", "fastest;car;traffic:disabled;");
+        mapsAPIRequestHelper(SIMPLE_ROUTE_URL, param);
     }
 
-    private static String mapsAPIRequestHelper(String URL, String urlParameters) {
+    private static String mapsAPIRequestHelper(String URL, Map<String, String> parameters) {
         try {
             System.out.println("begin url build");
             URIBuilder builder = new URIBuilder(URL);
 
-            builder.addParameter("app_id", "MX1s7TrrSy2Zc9dPuu3U");
-            builder.addParameter("app_code", "xZizd8K9E0ZS8Rnn4J2rvA");
-            builder.addParameter("waypoint0", "geo!52.5,13.4");
-            builder.addParameter("waypoint1", "geo!52.5,13.45");
-            builder.addParameter("mode", "fastest;car;traffic:disabled;");
+            builder.addParameter("app_id", HERE_API_APP_ID);
+            builder.addParameter("app_code", HERE_API_APP_CODE);
+
+            for(String key : parameters.keySet()) {
+                builder.addParameter(key, parameters.get(key));
+            }
 
             URI uri = builder.build();
             HttpPost request = new HttpPost(uri);
