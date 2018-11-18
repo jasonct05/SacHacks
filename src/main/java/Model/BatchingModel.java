@@ -68,16 +68,13 @@ public class BatchingModel {
         return true;
     }
 
-    // TODO: @Alex, make it work with both id as rider / driver
     public Pair<Driver, List<Rider>> getRoute(String id) {
-        Driver currDriver = null;
         for (Driver d : matchRoute.keySet()) {
-            if (d.userId.equals(id)) {
-                currDriver = d;
-                break;
+            if (d.userId.equals(id) || matchRoute.get(d).contains(id)) {
+                return new Pair<>(d, matchRoute.get(d));
             }
         }
-        return new Pair<>(currDriver, matchRoute.get(currDriver));
+        return null;
     }
 }
 
