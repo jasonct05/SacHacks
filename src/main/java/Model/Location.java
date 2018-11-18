@@ -2,10 +2,15 @@ package Model;
 
 public class Location {
     public double latitude;
-    public double longtitude;
+    public double longitude;
 
     public Location(double latitude, double longtitude) {
         this.latitude = latitude;
-        this.longtitude = longtitude;
+        this.longitude = longtitude;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + this.latitude + ", " + this.longitude + "]";
     }
 }

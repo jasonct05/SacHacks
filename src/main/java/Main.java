@@ -1,12 +1,5 @@
 import Maps.Matcher;
 import Mocks.BatchingModelInitializer;
-import Model.BatchingModel;
-import Model.Driver;
-import Networks.HereAPIHttpClient;
-import Networks.JSONParser;
-
-import java.net.*;
-import java.io.*;
 
 public class Main {
     public static void main(String[] args){

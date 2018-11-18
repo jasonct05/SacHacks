@@ -24,6 +24,7 @@ public class Matcher {
         // shitty O(n^2) alg but fuck it
         for(Rider r : lRider) {
             for (Driver d : lDriver) {
+                System.out.println("finding distance from " + r.location + " to " + d.location);
                 String simpleRouteJSONResponse = HereAPIHttpClient.simpleRouteRequest(r.location, d.location);
                 double distance = JSONParser.findDistanceFromSimpleRouteRequest(simpleRouteJSONResponse);
                 System.out.println("distance from driver " + d.userName + " to " + r.userName + " is " + distance + " km");

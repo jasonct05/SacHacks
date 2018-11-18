@@ -35,12 +35,10 @@ public class JSONParser {
             JSONArray routeArray = ((JSONArray) jo.get("route"));
 
             Iterator routeIterator = routeArray.iterator();
-            while (routeIterator.hasNext()) {
-                JSONObject result = (JSONObject) routeIterator.next();
-                System.out.println(result.toString());
-                result = (JSONObject) result.get("summary");
-                return ((Number) result.get("distance")).doubleValue();
-            }
+            JSONObject result = (JSONObject) routeIterator.next();
+            result = (JSONObject) result.get("summary");
+            return ((Number) result.get("distance")).doubleValue();
+            
         } catch (Exception e) {
             System.out.println(e);
         }

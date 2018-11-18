@@ -23,16 +23,15 @@ public class HereAPIHttpClient {
 
     public static String simpleRouteRequest(Location driverLocation, Location riderLocation){
         Map<String, String> param = new HashMap<>();
-        param.put("waypoint0", "geo!" + driverLocation.latitude + "," + riderLocation.longtitude);
-        param.put("waypoint1", "geo!" + driverLocation.latitude + "," + riderLocation.longtitude);
-        param.put("waypoint1", "geo!" + driverLocation.latitude + "," + riderLocation.longtitude);
+        param.put("waypoint0", "geo!" + driverLocation.latitude + "," + riderLocation.longitude);
+        param.put("waypoint1", "geo!" + driverLocation.latitude + "," + riderLocation.longitude);
+        param.put("waypoint1", "geo!" + driverLocation.latitude + "," + riderLocation.longitude);
         param.put("mode", "fastest;car;traffic:disabled;");
         return mapsAPIRequestHelper(SIMPLE_ROUTE_URL, param);
     }
 
     private static String mapsAPIRequestHelper(String URL, Map<String, String> parameters) {
         try {
-            System.out.println("begin url build");
             URIBuilder builder = new URIBuilder(URL);
 
             builder.addParameter("app_id", HERE_API_APP_ID);
@@ -45,10 +44,7 @@ public class HereAPIHttpClient {
             URI uri = builder.build();
             HttpPost request = new HttpPost(uri);
 
-
-            System.out.println("Sending Request");
             HttpResponse response = httpclient.execute(request);
-            System.out.println("Received Response");
 
             HttpEntity entity = response.getEntity();
             return EntityUtils.toString(entity);
