@@ -11,9 +11,9 @@ public class JSONParser {
     }
 
     public static Model.Driver parseDriver(String json) {
-        return new Model.Driver(0, 0, "anywhere");
+        return new Model.Driver("","", "", "",null, 0, 0, "anywhere");
     }
     public static Model.Rider parseRider(String json) {
-        return new Model.Rider();
+        return new Model.Rider("","", "", "",null);
     }
 }
