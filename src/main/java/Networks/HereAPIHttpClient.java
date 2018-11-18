@@ -23,9 +23,8 @@ public class HereAPIHttpClient {
 
     public static String simpleRouteRequest(Location driverLocation, Location riderLocation){
         Map<String, String> param = new HashMap<>();
-        param.put("waypoint0", "geo!" + driverLocation.latitude + "," + riderLocation.longitude);
-        param.put("waypoint1", "geo!" + driverLocation.latitude + "," + riderLocation.longitude);
-        param.put("waypoint1", "geo!" + driverLocation.latitude + "," + riderLocation.longitude);
+        param.put("waypoint0", + driverLocation.latitude + "," + driverLocation.longitude);
+        param.put("waypoint1", + riderLocation.latitude + "," + riderLocation.longitude);
         param.put("mode", "fastest;car;traffic:disabled;");
         return mapsAPIRequestHelper(SIMPLE_ROUTE_URL, param);
     }

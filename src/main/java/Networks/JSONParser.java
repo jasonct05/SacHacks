@@ -38,7 +38,7 @@ public class JSONParser {
             JSONObject result = (JSONObject) routeIterator.next();
             result = (JSONObject) result.get("summary");
             return ((Number) result.get("distance")).doubleValue();
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }

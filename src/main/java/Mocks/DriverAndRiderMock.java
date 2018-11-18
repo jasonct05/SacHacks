@@ -1,5 +1,6 @@
 package Mocks;
 
+import Model.BatchingModel;
 import Model.Driver;
 import Model.Location;
 import Model.Rider;
@@ -41,5 +42,20 @@ public class DriverAndRiderMock {
                 LocalDateTime.of(2018, 11, 21, 15, 00)
         ));
         return s;
+    }
+
+    public static boolean populateBatchingModel(BatchingModel bm) {
+        Set<Rider> sr = createMockRiderSet();
+        Set<Driver> sd = createMockDriverSet();
+
+        for(Rider r : sr ) {
+            bm.addRider(r);
+        }
+
+        for (Driver d : sd) {
+            bm.addDriver(d);
+        }
+
+        return true;
     }
 }

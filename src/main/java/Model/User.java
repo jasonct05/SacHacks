@@ -16,4 +16,9 @@ public class User {
         this.location = location;
         this.pickupTimeFrame = pickupTimeFrame;
     }
+
+    @Override
+    public String toString() {
+        return this.userName;
+    }
 }

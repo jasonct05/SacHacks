@@ -1,11 +1,14 @@
 import Maps.Matcher;
 import Mocks.BatchingModelInitializer;
+import Mocks.DriverAndRiderMock;
 
 public class Main {
     public static void main(String[] args){
         Model.BatchingModel bm = BatchingModelInitializer.initializeEventModel();
+        // dummy code
+        DriverAndRiderMock.populateBatchingModel(bm);
         try {
-            Matcher.findRidersInRegion(Mocks.DriverAndRiderMock.createMockDriverSet(), Mocks.DriverAndRiderMock.createMockRiderSet());
+            bm.matchRiderAndDriver();
         } catch(Exception e) {
 
         }
